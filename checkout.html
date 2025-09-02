@@ -332,7 +332,7 @@ document.getElementById("whatsapp-order").addEventListener("click", function(e){
     e.preventDefault();
     const message = generateWhatsappMessage();
     if(message){
-        const phone = "254763497422"; // replace with your Safaricom number
+        const phone = "254740389335"; // replace with your Safaricom number
         const whatsappURL = `https://api.whatsapp.com/send?phone=${phone}&text=${message}`;
         window.open(whatsappURL, "_blank");
     }
