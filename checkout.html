@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paps Online Shopping</title>
+
+<!-- Google font -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+<!-- Bootstrap -->
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+
+<!-- Slick -->
+<link type="text/css" rel="stylesheet" href="css/slick.css"/>
+<link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+
+<!-- nouislider -->
+<link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+
+<!-- Font Awesome Icon -->
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="icon" type="image/png" href="img/pap logo.jpg">
+
+<!-- Custom stylesheet -->
+<link type="text/css" rel="stylesheet" href="css/style.css"/>
+<style>
+  .currency-switcher {margin:10px 0; font-weight:bold;}
+  .currency-switcher label {color: blue;}
+  #cart-toast {position: fixed; bottom: 20px; right: 20px; background: #08dee9; color: #fff; padding: 12px 18px; border-radius: 6px; display: none; z-index: 9999;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <!-- TOP HEADER -->
+  <div id="top-header">
+    <div class="container">
+      <ul class="pull-left header-links">
+        <li><a href="#"><i class="fa fa-phone"></i> </a></li>
+        <li><a href="#"><i class="fa fa-envelope-o"></i> papsgaminghub.gmail.com</a></li>
+        <li><a href="#"><i class="fa fa-map-marker"></i></a></li>
+      </ul>
+      <ul class="pull-right header-links">
+        <li><a href="#"><i class="fa fa-Ksh"></i> Ksh</a></li>
+        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- /TOP HEADER -->
+
+  <!-- MAIN HEADER -->
+  <div id="header">
+    <div class="container">
+      <div class="row">
+        <!-- LOGO -->
+        <div class="col-md-3">
+          <div class="header-logo" style="display:flex; align-items:center; height:70px;">
+            <a href="#" class="logo" style="display:flex; align-items:center; text-decoration:none;">
+              <img src="img/pap logo.jpg" alt="Pap Logo" style="height:90px; width:auto; object-fit:contain; margin-right:10px;">
+              <span style="font-size:22px; font-weight:bold; color:rgb(8, 178, 245); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Paps Online Shopping</span>
+            </a>
+          </div>
+        </div>
+        <!-- /LOGO -->
+
+        <!-- SEARCH BAR -->
+        <div class="col-md-6">
+          <div class="header-search">
+            <form onsubmit="return searchProducts(event)">
+              <select class="input-select" id="category">
+                <option value="all">All Categories</option>
+                <option value="clothes">Clothes</option>
+                <option value="electronics">Electronics</option>
+              </select>
+              <input class="input" id="searchInput" placeholder="Search here" required>
+              <button type="submit" class="search-btn">Search</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- CURRENCY SWITCHER -->
+        <div class="col-md-3">
+          <div class="currency-switcher">
+            <label for="currency">Currency: </label>
+            <select id="currency" onchange="updateCurrency()">
+              <option value="KES">KSh (Kenya Shilling)</option>
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="JPY">JPY (¥)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="CAD">CAD (C$)</option>
+              <option value="AUD">AUD (A$)</option>
+              <option value="ZAR">ZAR (R)</option>
+              <option value="CNY">CNY (¥)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCOUNT / WISHLIST / CART -->
+      <div class="mt-2 row">
+        <div class="clearfix col-md-12">
+          <div class="d-flex justify-content-end header-ctn">
+            <!-- Wishlist -->
+            <div>
+              <a href="wishlist.html" id="wishlist-link">
+                <i class="fa fa-heart-o"></i>
+                <span>Your Wishlist</span>
+                <div class="qty" id="wishlist-count">0</div>
+              </a>
+            </div>
+
+            <!-- Cart Dropdown -->
+            <div class="dropdown" id="cart-container">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                <i class="fa fa-shopping-cart"></i>
+                <span>Your Cart</span>
+                <div class="qty" id="cart-count">0</div>
+              </a>
+              <div class="cart-dropdown">
+                <div class="cart-list" id="cart-items"></div>
+                <div class="cart-summary">
+                  <small id="cart-total-items">0 Item(s) selected</small>
+                  <h5>SUBTOTAL: KSh <span id="cart-total">0</span></h5>
+                </div>
+                <div class="cart-btns">
+                  <a href="cart.html">View Cart</a>
+                  <a href="#">Checkout <i class="fa-arrow-circle-right fa"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /MAIN HEADER -->
+</header>
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+  <div class="container">
+    <div id="responsive-nav">
+      <ul class="main-nav nav navbar-nav">
+       <li class="active"><a href="index.html">Home</a></li>
+						<li><a href="hot deals.html">Hot Deals</a></li>
+						<li><a href="store.html">All Products</a></li>
+						<li><a href="categories.html">Categories</a></li>
+						<li><a href="oraimo.html">oraimo</a></li>
+						<li><a href="Games&Accessories.html">Games&Consoles Accessories</a></li>
+						<li><a href="">Women clothes</a></li>
+						<li><a href="">Shoes</a></li>
+						<li><a href="">Accessories</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="breadcrumb-header">Checkout</h3>
+        <ul class="breadcrumb-tree">
+          <li><a href="#">Home</a></li>
+          <li class="active">Checkout</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION -->
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <!-- Billing & Shipping -->
+      <div class="col-md-7">
+        <!-- Billing details and shipping details (same as your original code) -->
+		 <div class="shiping-details">
+							<div class="section-title">
+								<h3 class="title">Shiping address</h3>
+							</div>
+							<div class="input-checkbox">
+								<input type="checkbox" id="shiping-address">
+								<label for="shiping-address">
+									<span></span>
+									Ship to a diffrent address?
+								</label>
+								<div class="caption">
+									<div class="form-group">
+										<input class="input" type="text" name="first-name" placeholder="First Name">
+									</div>
+									<div class="form-group">
+										<input class="input" type="text" name="last-name" placeholder="Last Name">
+									</div>
+									<div class="form-group">
+										<input class="input" type="email" name="email" placeholder="Email">
+									</div>
+									<div class="form-group">
+										<input class="input" type="text" name="address" placeholder="Address">
+									</div>
+									<div class="form-group">
+										<input class="input" type="text" name="city" placeholder="City">
+									</div>
+									<div class="form-group">
+										<input class="input" type="text" name="country" placeholder="Country">
+									</div>
+									<div class="form-group">
+										<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+									</div>
+									<div class="form-group">
+										<input class="input" type="tel" name="tel" placeholder="Telephone">
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /Shiping Details -->
+
+      </div>
+
+      <!-- Order Details / Checkout Column -->
+      <div class="order-details col-md-5">
+        <div class="text-center section-title"><h3 class="title">Your Order</h3></div>
+        <div class="order-summary">
+          <div class="order-col">
+            <div><strong>PRODUCT</strong></div>
+            <div><strong>TOTAL</strong></div>
+          </div>
+          <div class="order-products" id="checkout-items"></div>
+          <div class="order-col">
+            <div>Shipping</div>
+            <div><strong>FREE</strong></div>
+          </div>
+          <div class="order-col">
+            <div><strong>TOTAL</strong></div>
+            <div><strong class="order-total" id="checkout-total">KSh 0</strong></div>
+          </div>
+        </div>
+
+        <!-- Payment options -->
+        <div class="payment-method">
+          <div class="input-radio">
+            <input type="radio" name="payment" id="payment-1">
+            <label for="payment-1"><span></span>Direct Bank Transfer</label>
+          </div>
+          <div class="input-radio">
+            <input type="radio" name="payment" id="payment-2">
+            <label for="payment-2"><span></span>Cheque Payment</label>
+          </div>
+          <div class="input-radio">
+            <input type="radio" name="payment" id="payment-3">
+            <label for="payment-3"><span></span>Paypal System</label>
+          </div>
+        </div>
+
+        <div class="input-checkbox">
+          <input type="checkbox" id="terms">
+          <label for="terms"><span></span>I've read and accept the <a href="#">terms & conditions</a></label>
+        </div>
+        <a href="#" class="order-submit primary-btn" id="place-order-btn">Confirm order then make payment</a>
+
+<script>
+  document.getElementById("place-order-btn").addEventListener("click", function(e){
+    e.preventDefault();
+
+    if(cart.length === 0){
+      alert("Your cart is empty!");
+      return;
+    }
+
+    // Prepare order message
+    let message = "Hello! I want to place an order:\n\n";
+    let total = 0;
+
+    cart.forEach(item => {
+      let itemTotal = item.price * item.quantity;
+      total += itemTotal;
+      message += `${item.name} - Qty: ${item.quantity} - KSh ${itemTotal}\n`;
+      message += `Image: ${item.image}\n\n`; // Include product image URL
+    });
+
+    message += `Total: KSh ${total}\n`;
+    message += "\nPlease process my order. Thank you!";
+
+    // Encode message for URL
+    let encodedMessage = encodeURIComponent(message);
+
+    // WhatsApp number (replace with your number, e.g., 2547XXXXXXX)
+    let whatsappNumber = "254740389335";
+
+    // Open WhatsApp
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, "_blank");
+  });
+</script>
+<!-- Existing Place Order button -->
+
+
+<!-- New WhatsApp Order button -->
+<a href="#" id="whatsapp-order" class="order-submit primary-btn" style="background-color:#25D366; margin-top:10px;" target="_blank">
+    Place Order via WhatsApp
+</a>
+
+<script>
+function generateWhatsappMessage() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if(cart.length === 0){
+        alert("Your cart is empty.");
+        return "";
+    }
+
+    let message = "Hello, I would like to place an order:\n\n";
+
+    let total = 0;
+    cart.forEach((item, index) => {
+        let itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        message += `${index + 1}. ${item.name} (Qty: ${item.quantity}) - KSh ${itemTotal}\n`;
+    });
+
+    message += `\nTotal: KSh ${total}\n`;
+    message += "\nPlease send this order via M-Pesa to 2547"; // replace with your Safaricom number
+    return encodeURIComponent(message);
+}
+
+document.getElementById("whatsapp-order").addEventListener("click", function(e){
+    e.preventDefault();
+    const message = generateWhatsappMessage();
+    if(message){
+        const phone = "254763497422"; // replace with your Safaricom number
+        const whatsappURL = `https://api.whatsapp.com/send?phone=${phone}&text=${message}`;
+        window.open(whatsappURL, "_blank");
+    }
+});
+</script>
+<!-- Place Order Button -->
+
+
+<!-- MPESA Payment Button -->
+<a href="#" class="primary-btn mpesa-btn" onclick="payWithMpesa()">Pay with M-PESA</a>
+
+<script>
+function payWithMpesa() {
+    const phone = prompt("Enter your phone number (2547xxxxxxx):");
+    if(!phone) return alert("Phone number is required!");
+
+    // Get the total dynamically from checkout page
+    const totalText = document.getElementById("checkout-total").innerText; // e.g., "KSh 2500"
+    const totalAmount = parseFloat(totalText.replace(/[^0-9\.]+/g,"")); // remove "KSh" text
+
+    // Build order info
+    const order = {
+        phone: phone,
+        amount: totalAmount
+    };
+
+    fetch("http://localhost:8080/mpesa/pay", { // your backend endpoint
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(order)
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(err => {
+        alert("Payment failed. Try again.");
+        console.error(err);
+    });
+}
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="cart-toast">✅ Item added to cart!</div>
+
+<script>
+/*=======================
+  CART + CHECKOUT LOGIC
+=======================*/
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+function updateWishlistCount(){
+  document.getElementById("wishlist-count").innerText = wishlist.length;
+}
+updateWishlistCount();
+
+function updateCartDropdown(){
+  const cartItems = document.getElementById("cart-items");
+  const cartCount = document.getElementById("cart-count");
+  const cartTotalItems = document.getElementById("cart-total-items");
+  const cartTotal = document.getElementById("cart-total");
+
+  cartItems.innerHTML = "";
+  let total = 0, itemCount = 0;
+  cart.forEach((item,index)=>{
+    total += item.price*item.quantity;
+    itemCount += item.quantity;
+    cartItems.innerHTML += `
+      <div class="product-widget">
+        <div class="product-img"><img src="${item.image}" alt=""></div>
+        <div class="product-body">
+          <h3 class="product-name"><a href="#">${item.name}</a></h3>
+          <h4 class="product-price">
+            <button onclick="decreaseQty(${index})">-</button>
+            <span class="qty">${item.quantity}x</span>
+            <button onclick="increaseQty(${index})">+</button>
+            KSh ${item.price*item.quantity}
+          </h4>
+        </div>
+        <button class="delete" onclick="removeFromCart(${index})"><i class="fa fa-close"></i></button>
+      </div>
+    `;
+  });
+  cartCount.innerText = itemCount;
+  cartTotalItems.innerText = `${itemCount} Item(s) selected`;
+  cartTotal.innerText = total;
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+function increaseQty(index){cart[index].quantity++; saveAndUpdate();}
+function decreaseQty(index){cart[index].quantity>1?cart[index].quantity--:cart.splice(index,1); saveAndUpdate();}
+function removeFromCart(index){cart.splice(index,1); saveAndUpdate();}
+function saveAndUpdate(){localStorage.setItem("cart",JSON.stringify(cart)); updateCartDropdown(); renderCheckout(); showToast();}
+function addToCart(name,price,image){const existing=cart.find(i=>i.name===name);existing?existing.quantity++:cart.push({name,price,image,quantity:1}); saveAndUpdate();}
+function showToast(){const toast=document.getElementById("cart-toast");toast.style.display="block"; setTimeout(()=>{toast.style.display="none";},2000);}
+
+/*=======================
+  CHECKOUT RENDER
+=======================*/
+const checkoutItems = document.getElementById("checkout-items");
+const checkoutTotal = document.getElementById("checkout-total");
+function renderCheckout(){
+  checkoutItems.innerHTML="";
+  if(cart.length===0){checkoutItems.innerHTML="<p class='text-center'>Your cart is empty.</p>"; checkoutTotal.innerText="KSh 0"; return;}
+  let total=0;
+  cart.forEach((item,index)=>{
+    let itemTotal=item.price*item.quantity;
+    total+=itemTotal;
+    const div=document.createElement("div");
+    div.className="order-col d-flex justify-content-between align-items-center mb-2";
+    div.innerHTML=`
+      <div class="d-flex align-items-center">
+        <img src="${item.image}" alt="${item.name}" style="width:50px;height:50px;object-fit:cover;margin-right:10px;">
+        <div>
+          <span>${item.name}</span>
+          <div class="mt-1 quantity-controls">Quantity: ${item.quantity}
+            <button onclick="increaseQty(${index})" class="btn btn-sm btn-light">+</button>
+            <button onclick="decreaseQty(${index})" class="btn btn-sm btn-light">-</button>
+          </div>
+        </div>
+      </div>
+      <div>KSh ${itemTotal}</div>
+    `;
+    checkoutItems.appendChild(div);
+  });
+  checkoutTotal.innerText="KSh "+total;
+}
+renderCheckout();
+
+/*=======================
+  CURRENCY SWITCHER
+=======================*/
+const exchangeRates={KES:1,USD:0.0076,EUR:0.007,GBP:0.0059,JPY:1.11,INR:0.63,CAD:0.01,AUD:0.012,ZAR:0.14,CNY:0.055};
+window.onload=function(){
+  let userLocale=navigator.language||navigator.userLanguage;
+  let currency="KES";
+  if(userLocale.includes("us")) currency="USD";
+  else if(userLocale.includes("ke")) currency="KES";
+  else if(userLocale.includes("gb")) currency="GBP";
+  else if(userLocale.includes("jp")) currency="JPY";
+  else if(userLocale.includes("in")) currency="INR";
+  else if(userLocale.includes("ca")) currency="CAD";
+  else if(userLocale.includes("au")) currency="AUD";
+  else if(userLocale.includes("za")) currency="ZAR";
+  else if(userLocale.includes("cn")) currency="CNY";
+  document.getElementById("currency").value=currency;
+  updateCurrency();
+}
+function updateCurrency(){
+  const currency=document.getElementById("currency").value;
+  document.querySelectorAll(".product-price").forEach(el=>{
+    let basePrice=el.getAttribute("data-price");
+    let converted=(basePrice*exchangeRates[currency]).toFixed(2);
+    switch(currency){
+      case "KES": el.textContent=`KSh ${converted}`; break;
+      case "USD": el.textContent=`$${converted}`; break;
+      case "EUR": el.textContent=`€${converted}`; break;
+      case "GBP": el.textContent=`£${converted}`; break;
+      case "JPY": el.textContent=`¥${converted}`; break;
+      case "INR": el.textContent=`₹${converted}`; break;
+      case "CAD": el.textContent=`C$${converted}`; break;
+      case "AUD": el.textContent=`A$${converted}`; break;
+      case "ZAR": el.textContent=`R${converted}`; break;
+      case "CNY": el.textContent=`¥${converted}`; break;
+    }
+  });
+}
+
+/*=======================
+  SEARCH FUNCTION
+=======================*/
+function searchProducts(event){
+  event.preventDefault();
+  let query=document.getElementById("searchInput").value.toLowerCase();
+  let category=document.getElementById("category").value;
+  document.querySelectorAll(".product").forEach(product=>{
+    let name=product.querySelector(".product-name").innerText.toLowerCase();
+    let cat=product.getAttribute("data-category");
+    product.style.display=(category==="all"||category===cat)&&name.includes(query)?"block":"none";
+  });
+}
+</script>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/jquery.zoom.min.js"></script>
+<script src="js/main.js"></script>
+<!-- Floating Icons -->
+<div class="floating-icons">
+  <!-- Phone -->
+  <a href="tel:+254790427109" title="Call Us">
+    <i class="fa-solid fa-phone fa-2x" style="color:#23ccea;"></i>
+  </a>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/254740389335" target="_blank" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp fa-2x" style="color:#25D366;"></i>
+  </a>
+</div>
+
+<!-- Scroll to Top -->
+<a href="#" class="scroll-top" id="btnTop" title="Go to Top">
+  <i class="fa-solid fa-arrow-up fa-2x" style="color:#1fc5ea;"></i>
+</a>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* Floating icons container (left side) */
+.floating-icons {
+  position: fixed;
+  left: 15px;
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+/* Scroll to top (right side) */
+.scroll-top {
+  position: fixed;
+  right: 15px;
+  bottom: 20px;
+  text-decoration: none;
+  display: none;
+  z-index: 1000;
+}
+</style>
+
+<script>
+// Show scroll-to-top icon when scrolling
+const btnTop = document.getElementById("btnTop");
+window.onscroll = function() {
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btnTop.style.display = "block";
+  } else {
+    btnTop.style.display = "none";
+  }
+};
+
+// Scroll to top when clicked
+btnTop.onclick = function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+</script>
+
+</body>
+</html>

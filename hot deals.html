@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>Paps online Shopping</title>
+
+		<!-- Google font -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+		<!-- Bootstrap -->
+		<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+
+		<!-- Slick -->
+		<link type="text/css" rel="stylesheet" href="css/slick.css"/>
+		<link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+
+		<!-- nouislider -->
+		<link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+
+		<!-- Font Awesome Icon -->
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="icon" type="image/png" href="img/pap logo.jpg">
+
+		<!-- Custom stlylesheet -->
+		<link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    </head>
+	<body>
+		<!-- HEADER -->
+		<header>
+			<!-- TOP HEADER -->
+			<div id="top-header">
+				<div class="container">
+					<ul class="pull-left header-links">
+						<li><a href="#"><i class="fa fa-phone"></i> </a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> papsgaminghub.gmail.com</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i></a></li>
+					</ul>
+					<ul class="pull-right header-links">
+						<li><a href="#"><i class="fa fa-Ksh"></i> Ksh</a></li>
+						<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- /TOP HEADER -->
+
+			<!-- MAIN HEADER -->
+			<div id="header">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<!-- LOGO -->
+						<div class="col-md-3">
+							<div class="header-logo" style="display:flex; align-items:center; height:70px;">
+    <a href="#" class="logo" style="display:flex; align-items:center; text-decoration:none;">
+        <img src="img/pap logo.jpg" alt="Pap Logo" style="height:90px; width:auto; object-fit:contain; margin-right:10px;">
+        <span style="font-size:22px; font-weight:bold; color:rgb(8, 178, 245); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            Paps Online Shopping
+        </span>
+    </a>
+</div>
+
+						</div>
+						<!-- /LOGO -->
+
+						<!-- SEARCH BAR -->
+<div class="col-md-6">
+    <div class="header-search">
+        <form onsubmit="return searchProducts(event)">
+            <select class="input-select" id="category">
+                <option value="all">All Categories</option>
+                <option value="clothes">Clothes</option>
+                <option value="electronics">Electronics</option>
+            </select>
+            <input class="input" id="searchInput" placeholder="Search here" required>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+</div>
+<!-- /SEARCH BAR -->
+
+<script>
+function searchProducts(event) {
+    event.preventDefault(); // stop page reload
+
+    let query = document.getElementById("searchInput").value.toLowerCase();
+    let category = document.getElementById("category").value;
+
+    // Example: filter products by query + category
+    let products = document.querySelectorAll(".product"); // assume you have products with class="product"
+
+    products.forEach(product => {
+        let name = product.querySelector(".product-name").innerText.toLowerCase();
+        let cat = product.getAttribute("data-category");
+
+        if ((category === "all" || category === cat) && name.includes(query)) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+}
+</script>
+<!-- Currency Switcher -->
+<div class="currency-switcher">
+   <label for="currency" style="color: blue;">Currency: </label>
+  <select id="currency" onchange="updateCurrency()">
+    <option value="KES">KSh (Kenya Shilling)</option>
+    <option value="USD">USD ($)</option>
+    <option value="EUR">EUR (€)</option>
+    <option value="GBP">GBP (£)</option>
+    <option value="JPY">JPY (¥)</option>
+    <option value="INR">INR (₹)</option>
+    <option value="CAD">CAD (C$)</option>
+    <option value="AUD">AUD (A$)</option>
+    <option value="ZAR">ZAR (R)</option>
+    <option value="CNY">CNY (¥)</option>
+  </select>
+</div>
+
+<script>
+  // Example conversion rates relative to KES
+  const exchangeRates = {
+    KES: 1,       // Base currency
+    USD: 0.0076,
+    EUR: 0.0070,
+    GBP: 0.0059,
+    JPY: 1.11,
+    INR: 0.63,
+    CAD: 0.010,
+    AUD: 0.012,
+    ZAR: 0.14,
+    CNY: 0.055
+  };
+
+  // Auto-detect based on browser locale
+  window.onload = function() {
+    let userLocale = navigator.language || navigator.userLanguage;
+
+    if (userLocale.includes("us")) {
+      document.getElementById("currency").value = "USD";
+    } else if (userLocale.includes("ke")) {
+      document.getElementById("currency").value = "KES";
+    } else if (userLocale.includes("gb")) {
+      document.getElementById("currency").value = "GBP";
+    } else if (userLocale.includes("jp")) {
+      document.getElementById("currency").value = "JPY";
+    } else if (userLocale.includes("in")) {
+      document.getElementById("currency").value = "INR";
+    } else if (userLocale.includes("ca")) {
+      document.getElementById("currency").value = "CAD";
+    } else if (userLocale.includes("au")) {
+      document.getElementById("currency").value = "AUD";
+    } else if (userLocale.includes("za")) {
+      document.getElementById("currency").value = "ZAR";
+    } else if (userLocale.includes("cn")) {
+      document.getElementById("currency").value = "CNY";
+    } else {
+      document.getElementById("currency").value = "KES"; // default fallback
+    }
+
+    updateCurrency();
+  }
+
+  function updateCurrency() {
+    const currency = document.getElementById("currency").value;
+    const priceElements = document.querySelectorAll(".product-price");
+
+    priceElements.forEach(el => {
+      let basePrice = el.getAttribute("data-price");
+      let convertedPrice = (basePrice * exchangeRates[currency]).toFixed(2);
+
+      switch (currency) {
+        case "KES": el.textContent = `KSh ${convertedPrice}`; break;
+        case "USD": el.textContent = `$${convertedPrice}`; break;
+        case "EUR": el.textContent = `€${convertedPrice}`; break;
+        case "GBP": el.textContent = `£${convertedPrice}`; break;
+        case "JPY": el.textContent = `¥${convertedPrice}`; break;
+        case "INR": el.textContent = `₹${convertedPrice}`; break;
+        case "CAD": el.textContent = `C$${convertedPrice}`; break;
+        case "AUD": el.textContent = `A$${convertedPrice}`; break;
+        case "ZAR": el.textContent = `R${convertedPrice}`; break;
+        case "CNY": el.textContent = `¥${convertedPrice}`; break;
+      }
+    });
+  }
+</script>
+
+<style>
+  .currency-switcher {
+    margin: 10px 0;
+    font-weight: bold;
+  }
+  .currency-label {
+    color: blue; /* Make "Currency:" text blue */
+  }
+</style>
+
+
+
+
+						<!-- ACCOUNT -->
+						<div class="clearfix col-md-3">
+							<div class="header-ctn">
+								
+								<!-- Wishlist -->
+<div>
+    <a href="wishlist.html" id="wishlist-link">
+        <i class="fa fa-heart-o"></i>
+        <span>Your Wishlist</span>
+        <div class="qty" id="wishlist-count">0</div>
+    </a>
+</div>
+<script>
+// Load wishlist from localStorage
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+// Update wishlist count
+function updateWishlistCount() {
+    const countEl = document.getElementById("wishlist-count");
+    if (countEl) {
+        countEl.innerText = wishlist.length;
+    }
+}
+
+// Listen for storage changes (sync across tabs/pages)
+window.addEventListener("storage", function() {
+    wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    updateWishlistCount();
+});
+
+// Call when page loads
+updateWishlistCount();
+</script>
+
+<!-- /Wishlist -->
+
+
+								<!-- Cart -->
+<div class="dropdown" id="cart-container">
+  <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+    <i class="fa fa-shopping-cart"></i>
+    <span>Your Cart</span>
+    <div class="qty" id="cart-count">0</div>
+  </a>
+  <div class="cart-dropdown">
+    <div class="cart-list" id="cart-items">
+      <!-- Cart items will be dynamically added here -->
+    </div>
+    <div class="cart-summary">
+      <small id="cart-total-items">0 Item(s) selected</small>
+      <h5>SUBTOTAL: KSh <span id="cart-total">0</span></h5>
+    </div>
+    <div class="cart-btns">
+      <a href="cart.html">View Cart</a>
+      <a href="checkout.html">Checkout <i class="fa-arrow-circle-right fa"></i></a>
+    </div>
+  </div>
+</div>
+<!-- /Cart -->
+
+<!-- Toast Notification -->
+<div id="cart-toast" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #08dee9;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 6px;
+  display: none;
+  z-index: 9999;
+">
+  ✅ Item added to cart!
+</div>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  function updateCart() {
+    const cartItems = document.getElementById("cart-items");
+    const cartCount = document.getElementById("cart-count");
+    const cartTotalItems = document.getElementById("cart-total-items");
+    const cartTotal = document.getElementById("cart-total");
+
+    cartItems.innerHTML = "";
+    let total = 0;
+    let itemCount = 0;
+
+    cart.forEach((item, index) => {
+      total += item.price * item.quantity;
+      itemCount += item.quantity;
+
+      cartItems.innerHTML += `
+        <div class="product-widget">
+          <div class="product-img">
+            <img src="${item.image}" alt="">
+          </div>
+          <div class="product-body">
+            <h3 class="product-name"><a href="#">${item.name}</a></h3>
+            <h4 class="product-price">
+              <button onclick="decreaseQty(${index})">-</button>
+              <span class="qty">${item.quantity}x</span>
+              <button onclick="increaseQty(${index})">+</button>
+              KSh ${item.price * item.quantity}
+            </h4>
+          </div>
+          <button class="delete" onclick="removeFromCart(${index})"><i class="fa fa-close"></i></button>
+        </div>
+      `;
+    });
+
+    cartCount.textContent = itemCount;
+    cartTotalItems.textContent = `${itemCount} Item(s) selected`;
+    cartTotal.textContent = total;
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
+  function addToCart(name, price, image) {
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.quantity++;
+    } else {
+      cart.push({ name, price, image, quantity: 1 });
+    }
+    updateCart();
+    showToast();
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+  }
+
+  function increaseQty(index) {
+    cart[index].quantity++;
+    updateCart();
+  }
+
+  function decreaseQty(index) {
+    if (cart[index].quantity > 1) {
+      cart[index].quantity--;
+    } else {
+      removeFromCart(index);
+    }
+    updateCart();
+  }
+
+  function showToast() {
+    const toast = document.getElementById("cart-toast");
+    toast.style.display = "block";
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 2000);
+  }
+
+  // Initialize cart on page load
+  updateCart();
+</script>
+
+								<!-- Menu Toogle -->
+								<div class="menu-toggle">
+									<a href="#">
+										<i class="fa fa-bars"></i>
+										<span>Menu</span>
+									</a>
+								</div>
+								<!-- /Menu Toogle -->
+							</div>
+						</div>
+						<!-- /ACCOUNT -->
+					</div>
+					<!-- row -->
+				</div>
+				<!-- container -->
+			</div>
+			<!-- /MAIN HEADER -->
+		</header>
+		<!-- /HEADER -->
+
+		<!-- NAVIGATION -->
+		<nav id="navigation">
+			<!-- container -->
+			<div class="container">
+				<!-- responsive-nav -->
+				<div id="responsive-nav">
+					<!-- NAV -->
+					<ul class="main-nav nav navbar-nav">
+						<li class="active"><a href="index.html">Home</a></li>
+						<li><a href="hot deals.html">Hot Deals</a></li>
+						<li><a href="store.html">All Products</a></li>
+						<li><a href="categories.html">Categories</a></li>
+						<li><a href="oraimo.html">oraimo</a></li>
+						<li><a href="Games&Accessories.html">Games&Consoles Accessories</a></li>
+						<li><a href="">Women clothes</a></li>
+						<li><a href="">Shoes</a></li>
+						<li><a href="">Accessories</a></li>
+					</ul>
+					<!-- /NAV -->
+				</div>
+				<!-- /responsive-nav -->
+			</div>
+			<!-- /container -->
+		</nav>
+		<!-- /NAVIGATION -->
+
+		
+		
+		<!-- HOT DEAL SECTION -->
+		<div id="hot-deal" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="hot-deal">
+							<ul class="hot-deal-countdown">
+  <li>
+    <div>
+      <h3 id="days">00</h3>
+      <span>Days</span>
+    </div>
+  </li>
+  <li>
+    <div>
+      <h3 id="hours">00</h3>
+      <span>Hours</span>
+    </div>
+  </li>
+  <li>
+    <div>
+      <h3 id="minutes">00</h3>
+      <span>Mins</span>
+    </div>
+  </li>
+  <li>
+    <div>
+      <h3 id="seconds">00</h3>
+      <span>Secs</span>
+    </div>
+  </li>
+</ul>
+
+<script>
+// Set the date for the countdown (change this to your desired date & time)
+var countDownDate = new Date("Sep 5, 2025 23:59:59").getTime();
+
+// Update the countdown every 1 second
+var x = setInterval(function() {
+  var now = new Date().getTime();
+  var distance = countDownDate - now;
+
+  // Time calculations
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result
+  document.getElementById("days").innerHTML = days;
+  document.getElementById("hours").innerHTML = hours;
+  document.getElementById("minutes").innerHTML = minutes;
+  document.getElementById("seconds").innerHTML = seconds;
+
+  // When countdown is over
+  if (distance < 0) {
+    clearInterval(x);
+    document.querySelector(".hot-deal-countdown").innerHTML = "<h3>EXPIRED</h3>";
+  }
+}, 1000);
+</script>
+
+							<h2 class="text-uppercase">hot deal this week</h2>
+							<p>New Collection Up to 50% OFF</p>
+							<a class="primary-btn cta-btn" href="#">Shop now</a>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /HOT DEAL SECTION -->
+		
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="mb-4 text-center col-md-12">
+        <h3 class="title">Hot Deals</h3>
+      </div>
+      <div id="hot-deals" class="row"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const baseImagePath = "./img/"; // Folder for product images
+
+  const hotProducts = [
+    {
+      name: "PS5 Slim Disc Edition",
+      category: "Gaming",
+      specs: "Disc edition, 1TB",
+      price: 78000,          // numeric for data binding
+      oldPrice: 80000,
+      image: "slim.jpg",
+      rating: 5,
+      dealEnd: "2025-09-10T23:59:59"
+    },
+    {
+      name: "Ps5 Controller",
+      category: "Gaming",
+      specs: "Brand New Ps5 Contoller",
+      price: 9000,
+      oldPrice: 10000,
+      image: "Ps5 controller.jpg",
+      rating: 5,
+      dealEnd: "2025-09-12T23:59:59"
+    },
+    {
+      name: "XBOX Series S",
+      category: "Gaming",
+      specs: "XBOX Series S - 512GB SSD Console",
+      price: 50000,
+      oldPrice: 57000,
+      image: "SERIES s.jpg",
+      rating: 5,
+      dealEnd: "2025-09-08T23:59:59"
+    },
+    {
+      name: "NBA 2K25",
+      category: "Games",
+      specs: "new exciting features in MyCAREER, MyTEAM, MyNBA, and more.",
+      price: 7000,
+      oldPrice: 8000,
+      image: "2k25.jpg",
+      rating: 5,
+      dealEnd: "2025-09-10T23:59:59"
+    },{
+      name: "Air Fryer",
+      category: "Home&Kitchen",
+      specs: "Extra Large Capacity Smoke-free 15L Black 1 YR WRTY)·",
+      price: 7000,          // numeric for data binding
+      oldPrice: 8000,
+      image: "air frier.jpg",
+      rating: 5,
+      dealEnd: "2025-09-10T23:59:59"
+    },
+    {
+      name: "Ps Controller",
+      category: "Gaming",
+      specs: "Brand New controller",
+      price: 9000,
+      oldPrice: 10000,
+      image: "ps5 controller.jpg",
+      rating: 5,
+      dealEnd: "2025-09-12T23:59:59"
+    },
+    {
+      name: "Air Force 1",
+      category: "Shoes",
+      specs: "White Air Force",
+      price: 2500,
+      oldPrice: 3000,
+      image: "nike air1.jpg",
+      rating: 5,
+      dealEnd: "2025-09-08T23:59:59"
+    },
+    {
+      name: "XBOX Series x",
+      category: "Gaming",
+      specs: " Enjoy 4K gaming at up to 120 frames per second on this next generation video game",
+      price: 70000,
+      oldPrice: 80000,
+      image: "SERX 1.jpg",
+      rating: 5,
+      dealEnd: "2025-09-10T23:59:59"
+    },
+	{
+      name: "Vans",
+      category: "Shoes",
+      specs: "Black Vans Coudroy",
+      price: 2500,          // numeric for data binding
+      oldPrice: 2700,
+      image: "van1.jpg",
+      rating: 5,
+      dealEnd: "2025-09-10T23:59:59"
+    },
+    {
+      name: "Used Ps5 Controller",
+      category: "Gaming",
+      specs: "Used Controller",
+      price: 7500,
+      oldPrice: 8000,
+      image: "con 1.jpg",
+      rating: 5,
+      dealEnd: "2025-09-12T23:59:59"
+    },
+    {
+      name: "iPhone 15 Pro",
+      category: "Phones",
+      specs: "1TB •Features 6.1″ display, Apple A17 Pro chipset, 3274 mAh battery, 1024 GB storage, 8 GB RAM",
+      price: 90000,
+      oldPrice: 98000,
+      image: "iphone 15 pro.jpg",
+      rating: 5,
+      dealEnd: "2025-09-08T23:59:59"
+    },
+    {
+      name: "Oraimo Space Buds",
+      category: "Audio",
+      specs: "Great sound quality with deep bass and clear vocals. The Active Noise Cancellation (ANC) blocks out background noise effectively. Battery life is impressive,",
+      price: 5000,
+      oldPrice: 6000,
+      image: "oraimo.jpg",
+      rating: 5,
+      dealEnd: "2025-09-10T23:59:59"
+    },
+	{
+      name: "PS5 Spiderman 2",
+      category: "Gaming",
+      specs: "The incredible power of the symbiote forces Peter Parker and Miles Morales",
+      price: 8000,          // numeric for data binding
+      oldPrice: 8500,
+      image: "spiderman2.jpg",
+      rating: 5,
+      dealEnd: "2025-09-10T23:59:59"
+    },
+    {
+      name: "Ps5 Standard",
+      category: "Gaming",
+      specs: "PS5  Standard 512GB ",
+      price: 70000,
+      oldPrice: 73000,
+      image: "ps5 stand.jpg",
+      rating: 5,
+      dealEnd: "2025-09-12T23:59:59"
+    },
+    {
+      name: "iPhone 14 Pro",
+      category: "Phones",
+      specs: "Features 6.1″ display, Apple A16 Bionic chipset, 3200 mAh battery, 1024 GB storage, 6 GB RAM",
+      price: 80500,
+      oldPrice: 88000,
+      image: "14pro.jpg",
+      rating: 5,
+      dealEnd: "2025-09-08T23:59:59"
+    },
+    {
+      name: "Oraimo watch 5 Lite",
+      category: "Oraimo",
+      specs: "oraimo Watch 5 Lite 2.01 HD IP68 Smart Watch",
+      price: 2500,
+      oldPrice: 3000,
+      image: "oram watch.jpg",
+      rating: 5,
+      dealEnd: "2025-09-10T23:59:59"
+    }
+  ];
+
+  const container = document.getElementById("hot-deals");
+
+  hotProducts.forEach(product => {
+    const col = document.createElement("div");
+    col.className = "col-md-3 col-xs-6";
+
+    let stars = "";
+    for (let i = 0; i < 5; i++) {
+      stars += `<i class="fa fa-star${i < product.rating ? "" : "-o"}"></i>`;
+    }
+
+    // calculate discount
+    const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+
+    col.innerHTML = `
+      <div class="product">
+        <div class="product-img">
+          <img src="${baseImagePath + product.image}" alt="${product.name}">
+          <div class="product-label">
+            <span class="sale">-${discount}%</span>
+          </div>
+        </div>
+        <div class="product-body">
+          <p class="product-category">${product.category}</p>
+          <h3 class="product-name"><a href="#">${product.name}</a></h3>
+          <p>${product.specs}</p>
+          <h4 
+            class="product-price" 
+            data-price="${product.price}" 
+            data-old-price="${product.oldPrice}">
+            Ksh ${product.price.toLocaleString()} 
+            <del class="product-old-price">Ksh ${product.oldPrice.toLocaleString()}</del>
+          </h4>
+          <div class="product-rating">${stars}</div>
+          <div class="product-btns">
+            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+          </div>
+          <div class="countdown" data-end="${product.dealEnd}"></div>
+        </div>
+        <div class="add-to-cart">
+          <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(col);
+  });
+
+  // Countdown timer
+  function updateCountdown() {
+    const timers = document.querySelectorAll(".countdown");
+    timers.forEach(timer => {
+      const endTime = new Date(timer.getAttribute("data-end")).getTime();
+      const now = new Date().getTime();
+      const distance = endTime - now;
+
+      if(distance > 0){
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        timer.innerHTML = `<p class="text-danger">Deal ends in: ${days}d ${hours}h ${minutes}m ${seconds}s</p>`;
+      } else {
+        timer.innerHTML = `<p class="text-muted">Deal ended</p>`;
+      }
+    });
+  }
+  setInterval(updateCountdown, 1000);
+
+  // Add to cart example
+  document.addEventListener("click", e => {
+    if(e.target.closest(".add-to-cart-btn")){
+      const productName = e.target.closest(".product").querySelector(".product-name a").innerText;
+      alert(productName + " added to cart!");
+    }
+  });
+</script>
+
+
+
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<!-- section title -->
+					<div class="col-md-12">
+						<div class="section-title">
+							<h3 class="title">Top selling</h3>
+							<div class="section-nav">
+								<ul class="section-tab-nav tab-nav">
+									<li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
+									<li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
+									<li><a data-toggle="tab" href="#tab2">Cameras</a></li>
+									<li><a data-toggle="tab" href="#tab2">Accessories</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /section title -->
+
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab2" class="tab-pane fade in active">
+									<div class="products-slick" data-nav="#slick-nav-2">
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="./img/product06.png" alt="">
+												<div class="product-label">
+													<span class="sale">-30%</span>
+													<span class="new">NEW</span>
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category">ABUS</p>
+												<h3 class="product-name"><a href="#">ABUS Laptop</a></h3>
+												<h4 class="product-price"
+                                                        data-price="27000" 
+                                                               data-old-price="3500">
+                                                                </h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="img/sam A55.jpg" alt="">
+												<div class="product-label">
+													<span class="new">NEW</span>
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category">Phone&accessorie</p>
+												<h3 class="product-name"><a href="#">Samsung A55</a></h3>
+												<h4 class="product-price" data-price="40000" data-old-price="3500"></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star-o"></i>
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="./img/product08.png" alt="">
+												<div class="product-label">
+													<span class="sale">-30%</span>
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category">ARUS</p>
+												<h3 class="product-name"><a href="#">ARUS</a></h3>
+												<h4 class="product-price" data-price="20000" data-old-price="3500"></h4>
+												<div class="product-rating">
+													
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+											
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="img/canon EOS R5.jpg" alt="">
+											</div>
+											<div class="product-body">
+												<p class="product-category">Camera</p>
+												<h3 class="product-name"><a href="#">Canon EOS R5</a></h3>
+												<h4 class="product-price" data-price="450400" data-old-price="3500"></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+
+										<!-- product -->
+										<div class="product">
+											<div class="product-img">
+												<img src="./img/product01.png" alt="">
+											</div>
+											<div class="product-body">
+												<p class="product-category">HP</p>
+												<h3 class="product-name"><a href="#">HP 17-cn0006cy 17in Touch Laptop</a></h3>
+												<h4 class="product-price" data-price="40000" data-old-price="3500"></h4>
+												<div class="product-rating">
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i>
+												</div>
+												<div class="product-btns">
+													<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+													<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+													<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+												</div>
+											</div>
+											<div class="add-to-cart">
+												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+											</div>
+										</div>
+										<!-- /product -->
+									</div>
+									<div id="slick-nav-2" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- /Products tab & slick -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-4 col-xs-6">
+						<div class="section-title">
+							<h4 class="title">Top selling</h4>
+							<div class="section-nav">
+								<div id="slick-nav-3" class="products-slick-nav"></div>
+							</div>
+						</div>
+
+						<div class="products-widget-slick" data-nav="#slick-nav-3">
+							<div>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/sam A55.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Phones&Accessories</p>
+										<h3 class="product-name"><a href="#">Samsung A55</a></h3>
+										<h4 class="product-price" data-price="40000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="./img/product08.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Arus</p>
+										<h3 class="product-name"><a href="#">Arus</a></h3>
+										<h4 class="product-price" data-price="20000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/canon EOS R5.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Camera</p>
+										<h3 class="product-name"><a href="#">Canon EOS R5</a></h3>
+										<h4 class="product-price" data-price="450400" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- product widget -->
+							</div>
+
+							<div>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/ps5 controller.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Gaming</p>
+										<h3 class="product-name"><a href="#">Ps5 Controller</a></h3>
+										<h4 class="product-price" data-price="9000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/slim.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Gaming</p>
+										<h3 class="product-name"><a href="#">Ps5 slim Disc Edition</a></h3>
+										<h4 class="product-price" data-price="80000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="./img/product03.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">HP</p>
+										<h3 class="product-name"><a href="#">Hp</a></h3>
+										<h4 class="product-price" data-price="40000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- product widget -->
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 col-xs-6">
+						<div class="section-title">
+							<h4 class="title">Top selling</h4>
+							<div class="section-nav">
+								<div id="slick-nav-4" class="products-slick-nav"></div>
+							</div>
+						</div>
+
+						<div class="products-widget-slick" data-nav="#slick-nav-4">
+							<div>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/oraimo.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Airpods</p>
+										<h3 class="product-name"><a href="#">Oraimo Free pods 4 Bluetooth earpods</a></h3>
+										<h4 class="product-price" data-price="4000" data-old-price="3500"></h4>
+										
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/oram watch.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Smart Watch</p>
+										<h3 class="product-name"><a href="#">Oraimo 5 Lite</a></h3>
+										<h4 class="product-price" data-price="2500" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/oraimo boom.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Headphones</p>
+										<h3 class="product-name"><a href="#">Oraimo </a></h3>
+										<h4 class="product-price" data-price="4000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- product widget -->
+							</div>
+
+							<div>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/van1.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Shoes</p>
+										<h3 class="product-name"><a href="#">Vans </a></h3>
+										<h4 class="product-price" data-price="2500" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/nike air1.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Shoes</p>
+										<h3 class="product-name"><a href="#">Air force 1</a></h3>
+										<h4 class="product-price" data-price="2500" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/Balmain.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Shoes</p>
+										<h3 class="product-name"><a href="#">Balmain</a></h3>
+										<h4 class="product-price" data-price="3500" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- product widget -->
+							</div>
+						</div>
+					</div>
+
+					<div class="visible-sm visible-xs clearfix"></div>
+
+					<div class="col-md-4 col-xs-6">
+						<div class="section-title">
+							<h4 class="title">Top selling</h4>
+							<div class="section-nav">
+								<div id="slick-nav-5" class="products-slick-nav"></div>
+							</div>
+						</div>
+
+						<div class="products-widget-slick" data-nav="#slick-nav-5">
+							<div>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/dress1.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Women</p>
+										<h3 class="product-name"><a href="#">Dress</a></h3>
+										<h4 class="product-price" data-price="900" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/air frier.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Home&Kitchen</p>
+										<h3 class="product-name"><a href="#">Air Fryer</a></h3>
+										<h4 class="product-price" data-price="7800" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/sn1.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Home&Kitchen</p>
+										<h3 class="product-name"><a href="#">Oraimo Sandwich Maker</a></h3>
+										<h4 class="product-price" data-price="6000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- product widget -->
+							</div>
+
+							<div>
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/mortalkombat 11.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Games</p>
+										<h3 class="product-name"><a href="#">Mortal Kombat 11</a></h3>
+										<h4 class="product-price" data-price="6000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/modern warfare.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Games</p>
+										<h3 class="product-name"><a href="#">Call of Duty Modern Warfare</a></h3>
+										<h4 class="product-price" data-price="4500" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- /product widget -->
+
+								<!-- product widget -->
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="img/spiderman2.jpg" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Games</p>
+										<h3 class="product-name"><a href="#">Spiderman 2</a></h3>
+										<h4 class="product-price" data-price="5000" data-old-price="3500"></h4>
+									</div>
+								</div>
+								<!-- product widget -->
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /NEWSLETTER -->
+
+		<!-- FOOTER -->
+		<footer id="footer">
+			<!-- top footer -->
+			<div class="section">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">About Us</h3>
+								<p>we bring you a wide variety of items, fashion, electronics, home essentials, beauty products, and more all in one place. Our goal is to connect you with products that match your lifestyle while guaranteeing value for your money.</p>
+								<ul class="footer-links">
+									<li><a href="#"><i class="fa fa-map-marker"></i>Nairobi</a></li>
+									<li><a href="#"><i class="fa fa-phone"></i></a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>papsgaminghub@gmail.com</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Categories</h3>
+								<ul class="footer-links">
+									<li><a href="#">Hot deals</a></li>
+									<li><a href="#">Laptops</a></li>
+									<li><a href="#">Smartphones</a></li>
+									<li><a href="#">Cameras</a></li>
+									<li><a href="#">Accessories</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="visible-xs clearfix"></div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Information</h3>
+								<ul class="footer-links">
+									<li><a href="#">About Us</a></li>
+									<li><a href="#">Contact Us</a></li>
+									<li><a href="#">Privacy Policy</a></li>
+									<li><a href="#">Orders and Returns</a></li>
+									<li><a href="#">Terms & Conditions</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Service</h3>
+								<ul class="footer-links">
+									<li><a href="#">My Account</a></li>
+									<li><a href="#">View Cart</a></li>
+									<li><a href="#">Wishlist</a></li>
+									<li><a href="#">Track My Order</a></li>
+									<li><a href="#">Help</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /top footer -->
+
+			<!-- bottom footer -->
+			<div id="bottom-footer" class="section">
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="text-center col-md-12">
+							<ul class="footer-payments">
+								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
+								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+							</ul>
+							<span class="copyright">
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Paps online shopping
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							</span>
+						</div>
+					</div>
+						<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /bottom footer -->
+		</footer>
+		<!-- /FOOTER -->
+
+		<!-- jQuery Plugins -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/slick.min.js"></script>
+		<script src="js/nouislider.min.js"></script>
+		<script src="js/jquery.zoom.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+  // Handle wishlist clicks
+  document.querySelectorAll(".add-to-wishlist").forEach(button => {
+    button.addEventListener("click", function () {
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+      let product = {
+        id: this.getAttribute("data-id"),
+        name: this.getAttribute("data-name"),
+        price: this.getAttribute("data-price"),
+        img: this.getAttribute("data-img")
+      };
+
+      // prevent duplicate entries
+      let exists = wishlist.some(item => item.id === product.id);
+      if (!exists) {
+        wishlist.push(product);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        alert(product.name + " added to wishlist!");
+      } else {
+        alert("This item is already in your wishlist.");
+      }
+    });
+  });
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+  const cartButtons = document.querySelectorAll(".add-to-cart-btn");
+
+  cartButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const productCard = this.closest(".product"); // parent card
+
+      const name = productCard.querySelector(".product-name").innerText;
+      const priceText = productCard.querySelector(".product-price").innerText.replace("KSh", "").trim();
+      const price = parseFloat(priceText);
+      const image = productCard.querySelector("img").src;
+
+      addToCart(name, price, image); // send to your function
+    });
+  });
+});
+
+</script>
+<!-- Floating Icons -->
+<div class="floating-icons">
+  <!-- Phone -->
+  <a href="tel:+254790427109" title="Call Us">
+    <i class="fa-solid fa-phone fa-2x" style="color:#23ccea;"></i>
+  </a>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/254740389335" target="_blank" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp fa-2x" style="color:#25D366;"></i>
+  </a>
+</div>
+
+<!-- Scroll to Top -->
+<a href="#" class="scroll-top" id="btnTop" title="Go to Top">
+  <i class="fa-solid fa-arrow-up fa-2x" style="color:#1fc5ea;"></i>
+</a>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* Floating icons container (left side) */
+.floating-icons {
+  position: fixed;
+  left: 15px;
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+/* Scroll to top (right side) */
+.scroll-top {
+  position: fixed;
+  right: 15px;
+  bottom: 20px;
+  text-decoration: none;
+  display: none;
+  z-index: 1000;
+}
+</style>
+
+<script>
+// Show scroll-to-top icon when scrolling
+const btnTop = document.getElementById("btnTop");
+window.onscroll = function() {
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btnTop.style.display = "block";
+  } else {
+    btnTop.style.display = "none";
+  }
+};
+
+// Scroll to top when clicked
+btnTop.onclick = function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+</script>
+
+	</body>
+</html>
