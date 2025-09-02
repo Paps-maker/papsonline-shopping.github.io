@@ -249,7 +249,7 @@ updateWishlistCount();
 
 																<!-- Cart -->
 <div class="dropdown" id="cart-container">
-  <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+  <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
     <i class="fa fa-shopping-cart"></i>
     <span>Your Cart</span>
     <div class="qty" id="cart-count">0</div>
@@ -285,107 +285,244 @@ updateWishlistCount();
   ✅ Item added to cart!
 </div>
 
+<style>
+/* Cart Dropdown */
+.cart-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  z-index: 1000;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+/* Show dropdown when parent has 'show' class */
+#cart-container.show .cart-dropdown {
+  display: block;
+}
+
+/* Product Widget */
+.product-widget {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  align-items: center;
+}
+
+.product-widget .product-img img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.product-widget .product-body {
+  flex: 1;
+}
+
+.product-widget .product-body h3 {
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.product-widget .product-body p {
+  font-size: 12px;
+  margin: 0;
+}
+
+.product-widget .product-body h4 {
+  font-size: 13px;
+  margin: 2px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.product-widget .product-body h4 button {
+  padding: 2px 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Delete button */
+.product-widget .delete {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Cart Summary */
+.cart-summary {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Cart Buttons */
+.cart-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.cart-btns a {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 4px;
+  margin: 0 2px;
+  font-size: 14px;
+}
+
+.cart-btns a:first-child {
+  background: #555;
+}
+
+.cart-btns a:last-child {
+  background: #08dee9;
+  color: #000;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .cart-dropdown {
+    width: 90vw;
+    right: 5%;
+    top: 50px;
+    max-height: 60vh;
+  }
+  .product-widget .product-img img {
+    width: 40px;
+    height: 40px;
+  }
+}
+</style>
+
 <script>
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  function updateCart() {
-    const cartItems = document.getElementById("cart-items");
-    const cartCount = document.getElementById("cart-count");
-    const cartTotalItems = document.getElementById("cart-total-items");
-    const cartTotal = document.getElementById("cart-total");
+function updateCart() {
+  const cartItems = document.getElementById("cart-items");
+  const cartCount = document.getElementById("cart-count");
+  const cartTotalItems = document.getElementById("cart-total-items");
+  const cartTotal = document.getElementById("cart-total");
 
-    cartItems.innerHTML = "";
-    let total = 0;
-    let itemCount = 0;
+  cartItems.innerHTML = "";
+  let total = 0;
+  let itemCount = 0;
 
-    cart.forEach((item, index) => {
-      total += item.price * item.quantity;
-      itemCount += item.quantity;
+  cart.forEach((item, index) => {
+    total += item.price * item.quantity;
+    itemCount += item.quantity;
 
-      cartItems.innerHTML += `
-        <div class="product-widget">
-          <div class="product-img">
-            <img src="${item.image}" alt="">
-          </div>
-          <div class="product-body">
-            <h3 class="product-name"><a href="#">${item.name}</a></h3>
-            ${item.size && item.size !== "N/A" ? `<p>Size: ${item.size}</p>` : ""}
-            <h4 class="product-price">
-              <button onclick="decreaseQty(${index})">-</button>
-              <span class="qty">${item.quantity}x</span>
-              <button onclick="increaseQty(${index})">+</button>
-              KSh ${item.price * item.quantity}
-            </h4>
-          </div>
-          <button class="delete" onclick="removeFromCart(${index})"><i class="fa fa-close"></i></button>
+    cartItems.innerHTML += `
+      <div class="product-widget">
+        <div class="product-img">
+          <img src="${item.image}" alt="">
         </div>
-      `;
-    });
-
-    cartCount.textContent = itemCount;
-    cartTotalItems.textContent = `${itemCount} Item(s) selected`;
-    cartTotal.textContent = total;
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
-
-  function addToCart(name, price, image, size = "N/A") {
-    const existing = cart.find(item => item.name === name && item.size === size);
-    if (existing) {
-      existing.quantity++;
-    } else {
-      cart.push({ name, price, image, size, quantity: 1 });
-    }
-    updateCart();
-    showToast();
-  }
-
-  function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCart();
-  }
-
-  function increaseQty(index) {
-    cart[index].quantity++;
-    updateCart();
-  }
-
-  function decreaseQty(index) {
-    if (cart[index].quantity > 1) {
-      cart[index].quantity--;
-    } else {
-      removeFromCart(index);
-    }
-    updateCart();
-  }
-
-  function showToast() {
-    const toast = document.getElementById("cart-toast");
-    toast.style.display = "block";
-    setTimeout(() => {
-      toast.style.display = "none";
-    }, 2000);
-  }
-
-  // ✅ Add-to-cart click handler (global)
-  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
-    button.addEventListener("click", () => {
-      const product = button.closest(".product");
-      const name = product.querySelector(".product-name a").innerText;
-      const price = parseInt(product.querySelector(".product-price").dataset.price);
-      const image = product.querySelector(".product-img img").src;
-
-      // check if product has a size dropdown
-      const sizeSelect = product.querySelector(".product-size");
-      const size = sizeSelect ? sizeSelect.value : "N/A";
-
-      addToCart(name, price, image, size);
-    });
+        <div class="product-body">
+          <h3 class="product-name"><a href="#">${item.name}</a></h3>
+          ${item.size && item.size !== "N/A" ? `<p>Size: ${item.size}</p>` : ""}
+          <h4>
+            <button onclick="decreaseQty(${index})">-</button>
+            <span class="qty">${item.quantity}x</span>
+            <button onclick="increaseQty(${index})">+</button>
+            KSh ${item.price * item.quantity}
+          </h4>
+        </div>
+        <button class="delete" onclick="removeFromCart(${index})"><i class="fa fa-close"></i></button>
+      </div>
+    `;
   });
 
-  // Initialize cart on page load
+  cartCount.textContent = itemCount;
+  cartTotalItems.textContent = `${itemCount} Item(s) selected`;
+  cartTotal.textContent = total;
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function addToCart(name, price, image, size = "N/A") {
+  const existing = cart.find(item => item.name === name && item.size === size);
+  if (existing) {
+    existing.quantity++;
+  } else {
+    cart.push({ name, price, image, size, quantity: 1 });
+  }
   updateCart();
+  showToast();
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
+
+function increaseQty(index) {
+  cart[index].quantity++;
+  updateCart();
+}
+
+function decreaseQty(index) {
+  if (cart[index].quantity > 1) {
+    cart[index].quantity--;
+  } else {
+    removeFromCart(index);
+  }
+  updateCart();
+}
+
+function showToast() {
+  const toast = document.getElementById("cart-toast");
+  toast.style.display = "block";
+  setTimeout(() => {
+    toast.style.display = "none";
+  }, 2000);
+}
+
+// Toggle dropdown on click
+const cartContainer = document.getElementById("cart-container");
+cartContainer.querySelector("a").addEventListener("click", (e) => {
+  e.preventDefault();
+  cartContainer.classList.toggle("show");
+});
+
+// Close dropdown if click outside
+document.addEventListener("click", (e) => {
+  if (!cartContainer.contains(e.target)) {
+    cartContainer.classList.remove("show");
+  }
+});
+
+// Global add-to-cart buttons
+document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    const product = button.closest(".product");
+    const name = product.querySelector(".product-name a").innerText;
+    const price = parseInt(product.querySelector(".product-price").dataset.price);
+    const image = product.querySelector(".product-img img").src;
+    const sizeSelect = product.querySelector(".product-size");
+    const size = sizeSelect ? sizeSelect.value : "N/A";
+    addToCart(name, price, image, size);
+  });
+});
+
+// Initialize cart
+updateCart();
 </script>
+
 
 
 
