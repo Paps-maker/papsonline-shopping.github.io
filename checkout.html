@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paps Online Shopping</title>
+
+<!-- Google font -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+<!-- Bootstrap -->
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+
+<!-- Slick -->
+<link type="text/css" rel="stylesheet" href="css/slick.css"/>
+<link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+
+<!-- nouislider -->
+<link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+
+<!-- Font Awesome Icon -->
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="icon" type="image/png" href="img/pap logo.jpg">
+
+<!-- Custom stylesheet -->
+<link type="text/css" rel="stylesheet" href="css/style.css"/>
+<style>
+  .currency-switcher {margin:10px 0; font-weight:bold;}
+  .currency-switcher label {color: blue;}
+  #cart-toast {position: fixed; bottom: 20px; right: 20px; background: #08dee9; color: #fff; padding: 12px 18px; border-radius: 6px; display: none; z-index: 9999;}
+  .form-control {width:100%; padding:6px 12px; margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <!-- TOP HEADER -->
+  <div id="top-header">
+    <div class="container">
+      <ul class="pull-left header-links">
+        <li><a href="#"><i class="fa fa-phone"></i> </a></li>
+        <li><a href="#"><i class="fa fa-envelope-o"></i> papsgaminghub.gmail.com</a></li>
+        <li><a href="#"><i class="fa fa-map-marker"></i></a></li>
+      </ul>
+      <ul class="pull-right header-links">
+        <li><a href="#"><i class="fa fa-Ksh"></i> Ksh</a></li>
+        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- /TOP HEADER -->
+
+  <!-- MAIN HEADER -->
+  <div id="header">
+    <div class="container">
+      <div class="row">
+        <!-- LOGO -->
+        <div class="col-md-3">
+          <div class="header-logo" style="display:flex; align-items:center; height:70px;">
+            <a href="#" class="logo" style="display:flex; align-items:center; text-decoration:none;">
+              <img src="img/pap logo.jpg" alt="Pap Logo" style="height:90px; width:auto; object-fit:contain; margin-right:10px;">
+              <span style="font-size:22px; font-weight:bold; color:rgb(8, 178, 245); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Paps Online Shopping</span>
+            </a>
+          </div>
+        </div>
+        <!-- /LOGO -->
+
+        <!-- SEARCH BAR -->
+        <div class="col-md-6">
+          <div class="header-search">
+            <form onsubmit="return searchProducts(event)">
+              <select class="input-select" id="category">
+                <option value="all">All Categories</option>
+                <option value="clothes">Clothes</option>
+                <option value="electronics">Electronics</option>
+              </select>
+              <input class="input" id="searchInput" placeholder="Search here" required>
+              <button type="submit" class="search-btn">Search</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- CURRENCY SWITCHER -->
+        <div class="col-md-3">
+          <div class="currency-switcher">
+            <label for="currency">Currency: </label>
+            <select id="currency" onchange="updateCurrency()">
+              <option value="KES">KSh (Kenya Shilling)</option>
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="JPY">JPY (¥)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="CAD">CAD (C$)</option>
+              <option value="AUD">AUD (A$)</option>
+              <option value="ZAR">ZAR (R)</option>
+              <option value="CNY">CNY (¥)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCOUNT / WISHLIST / CART -->
+      <div class="mt-2 row">
+        <div class="clearfix col-md-12">
+          <div class="d-flex justify-content-end header-ctn">
+            <!-- Wishlist -->
+            <div>
+              <a href="wishlist.html" id="wishlist-link">
+                <i class="fa fa-heart-o"></i>
+                <span>Your Wishlist</span>
+                <div class="qty" id="wishlist-count">0</div>
+              </a>
+            </div>
+
+            <!-- Cart Dropdown -->
+            <div class="dropdown" id="cart-container">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                <i class="fa fa-shopping-cart"></i>
+                <span>Your Cart</span>
+                <div class="qty" id="cart-count">0</div>
+              </a>
+              <div class="cart-dropdown">
+                <div class="cart-list" id="cart-items"></div>
+                <div class="cart-summary">
+                  <small id="cart-total-items">0 Item(s) selected</small>
+                  <h5>SUBTOTAL: KSh <span id="cart-total">0</span></h5>
+                </div>
+                <div class="cart-btns">
+                  <a href="cart.html">View Cart</a>
+                  <a href="#">Checkout <i class="fa-arrow-circle-right fa"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /MAIN HEADER -->
+</header>
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+  <div class="container">
+    <div id="responsive-nav">
+      <ul class="main-nav nav navbar-nav">
+       <li class="active"><a href="index.html">Home</a></li>
+       <li><a href="hot deals.html">Hot Deals</a></li>
+       <li><a href="store.html">All Products</a></li>
+       <li><a href="categories.html">Categories</a></li>
+       <li><a href="oraimo.html">oraimo</a></li>
+       <li><a href="Games&Accessories.html">Games&Consoles Accessories</a></li>
+       <li><a href="">Women clothes</a></li>
+       <li><a href="">Shoes</a></li>
+       <li><a href="">Accessories</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="breadcrumb-header">Checkout</h3>
+        <ul class="breadcrumb-tree">
+          <li><a href="#">Home</a></li>
+          <li class="active">Checkout</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION -->
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <!-- Billing & Shipping -->
+      <div class="col-md-7">
+        <!-- Billing details and shipping details -->
+        <div class="shiping-details">
+          <div class="section-title">
+            <h3 class="title">Shiping address</h3>
+          </div>
+          <div class="input-checkbox">
+            <input type="checkbox" id="shiping-address">
+            <label for="shiping-address">
+              <span></span>
+              Ship to a diffrent address?
+            </label>
+            <div class="caption">
+              <div class="form-group">
+                <input class="input" type="text" name="first-name" placeholder="First Name">
+              </div>
+              <div class="form-group">
+                <input class="input" type="text" name="last-name" placeholder="Last Name">
+              </div>
+              <div class="form-group">
+                <input class="input" type="email" name="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <input class="input" type="text" name="address" placeholder="Address">
+              </div>
+              <div class="form-group">
+                <input class="input" type="text" name="city" placeholder="City">
+              </div>
+              <div class="form-group">
+                <input class="input" type="text" name="country" placeholder="Country">
+              </div>
+              <div class="form-group">
+                <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+              </div>
+              <div class="form-group">
+                <input class="input" type="tel" name="tel" placeholder="Telephone">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /Shiping Details -->
+      </div>
+
+      <!-- Order Details / Checkout Column -->
+      <div class="order-details col-md-5">
+        <div class="text-center section-title"><h3 class="title">Your Order</h3></div>
+        <div class="order-summary">
+          <div class="order-col">
+            <div><strong>PRODUCT</strong></div>
+            <div><strong>TOTAL</strong></div>
+          </div>
+          <div class="order-products" id="checkout-items"></div>
+
+          <!-- DELIVERY OPTION -->
+          <div class="form-group mt-3">
+            <label for="delivery-option"><strong>Delivery Option:</strong></label>
+            <select id="delivery-option" class="form-control" onchange="updateDelivery()">
+              <option value="100">Within Area - KSh 100</option>
+              <option value="300">County to County - KSh 300</option>
+            </select>
+          </div>
+
+          <div class="order-col">
+            <div>Shipping</div>
+            <div><strong id="checkout-delivery">KSh 100</strong></div>
+          </div>
+          <div class="order-col">
+            <div><strong>TOTAL</strong></div>
+            <div><strong class="order-total" id="checkout-total">KSh 0</strong></div>
+          </div>
+        </div>
+
+        <!-- Payment options -->
+        <div class="payment-method">
+          <div class="input-radio">
+            <input type="radio" name="payment" id="payment-1">
+            <label for="payment-1"><span></span>Direct Bank Transfer</label>
+          </div>
+          <div class="input-radio">
+            <input type="radio" name="payment" id="payment-2">
+            <label for="payment-2"><span></span>Cheque Payment</label>
+          </div>
+          <div class="input-radio">
+            <input type="radio" name="payment" id="payment-3">
+            <label for="payment-3"><span></span>Paypal System</label>
+          </div>
+        </div>
+
+        <div class="input-checkbox">
+          <input type="checkbox" id="terms">
+          <label for="terms"><span></span>I've read and accept the <a href="#">terms & conditions</a></label>
+        </div>
+
+        <!-- Place Order -->
+        <a href="#" class="order-submit primary-btn" id="place-order-btn">Confirm order then make payment</a>
+        <a href="#" id="whatsapp-order" class="order-submit primary-btn" style="background-color:#25D366; margin-top:10px;" target="_blank">
+          Place Order via WhatsApp
+        </a>
+        <a href="#" class="primary-btn mpesa-btn" onclick="payWithMpesa()">Pay with M-PESA</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="cart-toast">✅ Item added to cart!</div>
+
+<!-- Floating Icons & Scroll -->
+<div class="floating-icons">
+  <a href="tel:+254790427109" title="Call Us"><i class="fa-solid fa-phone fa-2x" style="color:#23ccea;"></i></a>
+  <a href="https://wa.me/254740389335" target="_blank" title="Chat on WhatsApp"><i class="fa-brands fa-whatsapp fa-2x" style="color:#25D366;"></i></a>
+</div>
+<a href="#" class="scroll-top" id="btnTop" title="Go to Top"><i class="fa-solid fa-arrow-up fa-2x" style="color:#1fc5ea;"></i></a>
+
+<!-- Scripts -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/jquery.zoom.min.js"></script>
+<script src="js/main.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script>
+/*=======================
+  CART + CHECKOUT LOGIC
+=======================*/
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let deliveryFee = 100;
+
+function updateWishlistCount(){document.getElementById("wishlist-count").innerText = wishlist.length;}
+updateWishlistCount();
+
+function updateDelivery(){deliveryFee=parseInt(document.getElementById("delivery-option").value); renderCheckout();}
+function increaseQty(i){cart[i].quantity++; saveAndUpdate();}
+function decreaseQty(i){cart[i].quantity>1?cart[i].quantity--:cart.splice(i,1); saveAndUpdate();}
+function removeFromCart(i){cart.splice(i,1); saveAndUpdate();}
+function saveAndUpdate(){localStorage.setItem("cart",JSON.stringify(cart)); updateCartDropdown(); renderCheckout(); showToast();}
+function addToCart(name,price,image,size){const existing=cart.find(i=>i.name===name && i.size===size); existing?existing.quantity++:cart.push({name,price,image,size,quantity:1}); saveAndUpdate();}
+function showToast(){const toast=document.getElementById("cart-toast");toast.style.display="block"; setTimeout(()=>{toast.style.display="none";},2000);}
+
+function updateCartDropdown(){
+  const cartItems = document.getElementById("cart-items");
+  const cartCount = document.getElementById("cart-count");
+  const cartTotalItems = document.getElementById("cart-total-items");
+  const cartTotal = document.getElementById("cart-total");
+  cartItems.innerHTML=""; let total=0, itemCount=0;
+  cart.forEach((item,index)=>{total+=item.price*item.quantity; itemCount+=item.quantity;
+    cartItems.innerHTML+=`
+      <div class="product-widget">
+        <div class="product-img"><img src="${item.image}" alt=""></div>
+        <div class="product-body">
+          <h3 class="product-name"><a href="#">${item.name} (Size: ${item.size || "N/A"})</a></h3>
+          <h4 class="product-price">
+            <button onclick="decreaseQty(${index})">-</button>
+            <span class="qty">${item.quantity}x</span>
+            <button onclick="increaseQty(${index})">+</button>
+            KSh ${item.price*item.quantity}
+          </h4>
+        </div>
+        <button class="delete" onclick="removeFromCart(${index})"><i class="fa fa-close"></i></button>
+      </div>`;
+  });
+  cartCount.innerText=itemCount;
+  cartTotalItems.innerText=`${itemCount} Item(s) selected`;
+  cartTotal.innerText=total;
+  localStorage.setItem("cart",JSON.stringify(cart));
+}
+
+/*=======================
+  CHECKOUT RENDER
+=======================*/
+const checkoutItems=document.getElementById("checkout-items");
+const checkoutTotal=document.getElementById("checkout-total");
+
+function renderCheckout(){
+  checkoutItems.innerHTML="";
+  if(cart.length===0){checkoutItems.innerHTML="<p class='text-center'>Your cart is empty.</p>"; checkoutTotal.innerText="KSh 0"; return;}
+  let subtotal=0;
+  cart.forEach((item,index)=>{
+    let itemTotal=item.price*item.quantity;
+    subtotal+=itemTotal;
+    const div=document.createElement("div");
+    div.className="order-col d-flex justify-content-between align-items-center mb-2";
+    div.innerHTML=`
+      <div class="d-flex align-items-center">
+        <img src="${item.image}" alt="${item.name}" style="width:50px;height:50px;object-fit:cover;margin-right:10px;">
+        <div>
+          <span>${item.name} (Size: ${item.size || "N/A"})</span>
+          <div class="mt-1 quantity-controls">Quantity: ${item.quantity}
+            <button onclick="increaseQty(${index})" class="btn btn-sm btn-light">+</button>
+            <button onclick="decreaseQty(${index})" class="btn btn-sm btn-light">-</button>
+          </div>
+        </div>
+      </div>
+      <div>KSh ${itemTotal}</div>
+    `;
+    checkoutItems.appendChild(div);
+  });
+  let total=subtotal+deliveryFee;
+  checkoutTotal.innerText="KSh "+total;
+  document.getElementById("checkout-delivery").innerText="KSh "+deliveryFee;
+}
+renderCheckout();
+
+/*=======================
+  WHATSAPP ORDER
+=======================*/
+function generateWhatsappMessage(){
+  if(cart.length===0){alert("Your cart is empty."); return "";}
+  const deliverySelect=document.getElementById("delivery-option");
+  const deliveryText=deliverySelect.options[deliverySelect.selectedIndex].text;
+  let message="Hello, I would like to place an order:\n\n";
+  let subtotal=0;
+  cart.forEach((item,index)=>{
+    let itemTotal=item.price*item.quantity; subtotal+=itemTotal;
+    message+=`${index+1}. ${item.name} (Size: ${item.size || "N/A"}, Qty: ${item.quantity}) - KSh ${itemTotal}\n`;
+  });
+  let total=subtotal+deliveryFee;
+  message+=`\nDelivery: ${deliveryText}\n`;
+  message+=`Total: KSh ${total}\n\nPlease process my order. Thank you!`;
+  return encodeURIComponent(message);
+}
+document.getElementById("whatsapp-order").addEventListener("click",function(e){
+  e.preventDefault();
+  const message=generateWhatsappMessage();
+  if(message){const phone="254763497422"; window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`,"_blank");}
+});
+
+/*=======================
+  M-PESA PAYMENT SIM
+=======================*/
+function payWithMpesa(){alert("This would redirect to M-PESA payment gateway (simulate).");}
+</script>
+</body>
+</html>

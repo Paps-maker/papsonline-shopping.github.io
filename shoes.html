@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paps Online Shopping</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+  <!-- Slick -->
+  <link type="text/css" rel="stylesheet" href="css/slick.css"/>
+  <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+  <!-- nouislider -->
+  <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+  <!-- Font Awesome 4.x -->
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="icon" type="image/png" href="img/pap logo.jpg">
+  <!-- Custom stylesheet -->
+  <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+  <!-- Cart Styles -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* --- Cart Dropdown --- */
+    #cart-container { position: relative; }
+    .cart-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 6px;
+      padding: 10px;
+      display: none;
+      z-index: 1000;
+    }
+    #cart-container.open .cart-dropdown { display: block; }
+
+    .product-widget {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+      align-items: center;
+    }
+    .product-widget .product-img img {
+      width: 50px; height: 50px; object-fit: cover; border-radius: 4px;
+    }
+    .product-widget .product-body { flex: 1; }
+    .product-widget .product-body h3 { font-size: 14px; margin: 0 0 4px; }
+    .product-widget .product-body p { font-size: 12px; margin: 0; }
+    .product-widget .product-body h4 {
+      font-size: 13px; margin: 2px 0 0; display: flex; align-items: center; gap: 6px;
+    }
+    .product-widget .product-body h4 button {
+      padding: 2px 6px; font-size: 12px; cursor: pointer;
+    }
+    .product-widget .delete {
+      background: none; border: none; color: red; font-size: 16px; cursor: pointer;
+    }
+
+    .cart-summary { margin-top: 10px; font-size: 14px; }
+    .cart-btns { display: flex; justify-content: space-between; margin-top: 10px; }
+    .cart-btns a {
+      flex: 1; text-align: center; padding: 8px 0; text-decoration: none; color: #fff;
+      border-radius: 4px; margin: 0 2px; font-size: 14px;
+    }
+    .cart-btns a:first-child { background: #555; }
+    .cart-btns a:last-child  { background: #08dee9; color: #000; }
+
+    @media (max-width: 480px) {
+      .cart-dropdown { width: 90vw; right: 5%; top: 60px; max-height: 60vh; }
+      .product-widget .product-img img { width: 40px; height: 40px; }
+    }
+
+    /* --- Toast --- */
+    #cart-toast {
+      position: fixed; bottom: 20px; right: 20px;
+      background: #333; color: #fff;
+      padding: 12px 18px; border-radius: 8px;
+      display: none; align-items: center; gap: 8px;
+      z-index: 9999; font-size: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    /* Cart toggle pointer */
+    #cart-toggle { cursor: pointer; user-select: none; display:flex; align-items:center; gap:5px; position: relative; }
+    #cart-toggle .qty { position: absolute; top: -10px; right: -10px; background: red; color: #fff; font-size: 12px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items:center; justify-content:center; }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+      <div class="container">
+        <ul class="pull-left header-links">
+          <li><a href="#"><i class="fa fa-phone"></i></a></li>
+          <li><a href="#"><i class="fa fa-envelope-o"></i> papsgaminghub@gmail.com</a></li>
+          <li><a href="#"><i class="fa fa-map-marker"></i></a></li>
+        </ul>
+        <ul class="pull-right header-links">
+          <li><a href="#"><i class="fa fa-money"></i> Ksh</a></li>
+          <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- /TOP HEADER -->
+     
+
+    <!-- MAIN HEADER -->
+    <div id="header">
+      <div class="container">
+        <div class="row">
+          <!-- LOGO -->
+          <div class="col-md-3">
+            <div class="header-logo" style="display:flex; align-items:center; height:70px;">
+              <a href="#" class="logo" style="display:flex; align-items:center; text-decoration:none;">
+                <img src="img/pap logo.jpg" alt="Pap Logo" style="height:90px; width:auto; object-fit:contain; margin-right:10px;">
+                <span style="font-size:22px; font-weight:bold; color:rgb(8, 178, 245); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                  Paps Online Shopping
+                </span>
+              </a>
+            </div>
+          </div>
+          <!-- /LOGO -->
+
+          <!-- SEARCH BAR -->
+          <div class="col-md-6">
+            <div class="header-search">
+              <form onsubmit="return searchProducts(event)">
+                <select class="input-select" id="category">
+                  <option value="all">All Categories</option>
+                  <option value="clothes">Clothes</option>
+                  <option value="electronics">Electronics</option>
+                </select>
+                <input class="input" id="searchInput" placeholder="Search here" required>
+                <button type="submit" class="search-btn">Search</button>
+              </form>
+            </div>
+          </div>
+          <!-- /SEARCH BAR -->
+
+          <!-- CURRENCY SWITCHER -->
+          <div class="currency-switcher">
+            <label for="currency" style="color: blue;">Currency: </label>
+            <select id="currency" onchange="updateCurrency()">
+              <option value="KES">KSh (Kenya Shilling)</option>
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="JPY">JPY (¥)</option>
+              <option value="INR">INR (₹)</option>
+              <option value="CAD">CAD (C$)</option>
+              <option value="AUD">AUD (A$)</option>
+              <option value="ZAR">ZAR (R)</option>
+              <option value="CNY">CNY (¥)</option>
+            </select>
+          </div>
+          <!-- /CURRENCY SWITCHER -->
+
+          <!-- ACCOUNT / CART -->
+          <div class="clearfix col-md-3">
+            <div class="header-ctn">
+              <!-- Wishlist -->
+              <div>
+                <a href="wishlist.html" id="wishlist-link">
+                  <i class="fa fa-heart-o"></i>
+                  <span>Your Wishlist</span>
+                  <div class="qty" id="wishlist-count">0</div>
+                </a>
+              </div>
+
+              <!-- Cart -->
+              <!-- Cart -->
+								<div class="dropdown" id="cart-container">
+  <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+    <i class="fa fa-shopping-cart"></i>
+    <span>Your Cart</span>
+    <div class="qty" id="cart-count">0</div>
+  </a>
+  <div class="cart-dropdown">
+    <div class="cart-list" id="cart-items">
+      <!-- Cart items will be dynamically added here -->
+    </div>
+    <div class="cart-summary">
+      <small id="cart-total-items">0 Item(s) selected</small>
+      <h5>SUBTOTAL: KSh <span id="cart-total">0</span></h5>
+    </div>
+    <div class="cart-btns">
+      <a href="cart.html">View Cart</a>
+      <a href="checkout.html">Checkout <i class="fa-arrow-circle-right fa"></i></a>
+    </div>
+  </div>
+</div>
+<!-- /Cart -->
+ <div class="menu-toggle">
+									<a href="#">
+										<i class="fa fa-bars"></i>
+										<span>Menu</span>
+									</a>
+								</div>
+              <!-- /Cart -->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- /MAIN HEADER -->
+  </header>
+  <!-- NAVIGATION -->
+		<nav id="navigation">
+			<!-- container -->
+			<div class="container">
+				<!-- responsive-nav -->
+				<div id="responsive-nav">
+					<!-- NAV -->
+					<ul class="main-nav nav navbar-nav">
+						<li class="active"><a href="index.html">Home</a></li>
+						<li><a href="hot deals.html">Hot Deals</a></li>
+						<li><a href="store.html">All Products</a></li>
+						<li><a href="categories.html">Categories</a></li>
+						<li><a href="oraimo.html">oraimo</a></li>
+						<li><a href="Games&Accessories.html">Games&Consoles Accessories</a></li>
+						<li><a href="">Women clothes</a></li>
+						<li><a href="">Shoes</a></li>
+						<li><a href="">Accessories</a></li>
+					</ul>
+					<!-- /NAV -->
+				</div>
+				<!-- /responsive-nav -->
+			</div>
+			<!-- /container -->
+		</nav>
+		<!-- /NAVIGATION -->
+  
+
+  <!-- PRODUCTS GRID -->
+  <div class="mt-4 container">
+    <div class="row" id="products-container">
+      <!-- Product example -->
+      <div class="mb-4 col-md-3 col-sm-6">
+        <div class="product" data-category="shoes">
+          <div class="product-img">
+            <img src="img/Vans/fbr.jpg" alt="">
+            <div class="sale"><span class="sale">-30%</span></div>
+          </div>
+          <div class="product-body">
+            <p class="product-category">Shoes</p>
+            <h3 class="product-name"><a href="#">coudroy brown vans</a></h3>
+            <p>Perfect for all occassion</p>
+            <h4 class="product-price" data-price="2700">KSh 4000.00</h4>
+            <div class="product-size">
+              <label for="size">Size:</label>
+              <select class="size-select">
+                <option value="38">38</option><option value="39">39</option>
+                <option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option>
+                <option value="44">44</option><option value="45">45</option>
+                <option value="46">46</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 col-md-3 col-sm-6">
+        <div class="product" data-category="shoes">
+          <div class="product-img">
+            <img src="img/Vans/vans corduroy/1.jpg" alt="">
+            <div class="product-label"><span class="sale">-30%</span></div>
+          </div>
+          <div class="product-body">
+            <p class="product-category">Shoes</p>
+            <h3 class="product-name"><a href="#">Black</a></h3>
+            <p>Comfortable shoes</p>
+            <h4 class="product-price" data-price="2500">KSh 4000.00</h4>
+            <div class="product-size">
+              <label for="size">Size:</label>
+              <select class="size-select">
+                <option value="38">38</option><option value="39">39</option>
+                <option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option>
+                <option value="44">44</option><option value="45">45</option>
+                <option value="46">46</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 col-md-3 col-sm-6">
+        <div class="product" data-category="shoes">
+          <div class="product-img">
+            <img src="img/Vans/vans corduroy/1 (1).jpg" alt="">
+            
+          </div>
+          <div class="product-body">
+            <p class="product-category">Shoes</p>
+            <h3 class="product-name"><a href="#">Vans corduroy</a></h3>
+            <p>Comfortable shoes</p>
+            <h4 class="product-price" data-price="2500">KSh 4000.00</h4>
+            <div class="product-size">
+              <label for="size">Size:</label>
+              <select class="size-select">
+                <option value="38">38</option><option value="39">39</option>
+                <option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option>
+                <option value="44">44</option><option value="45">45</option>
+                <option value="46">46</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 col-md-3 col-sm-6">
+        <div class="product" data-category="shoes">
+          <div class="product-img">
+            <img src="img/Vans/vans corduroy/bl gr.jpg" alt="">
+            
+          </div>
+          <div class="product-body">
+            <p class="product-category">Shoes</p>
+            <h3 class="product-name"><a href="#">Black Green</a></h3>
+            <p>Comfortable shoes</p>
+            <h4 class="product-price" data-price="2700">KSh 4000.00</h4>
+            <div class="product-size">
+              <label for="size">Size:</label>
+              <select class="size-select">
+                <option value="38">38</option><option value="39">39</option>
+                <option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option>
+                <option value="44">44</option><option value="45">45</option>
+                <option value="46">46</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 col-md-3 col-sm-6">
+        <div class="product" data-category="shoes">
+          <div class="product-img">
+            <img src="img/Vans/vans corduroy/bl mar.jpg" alt="">
+            
+          </div>
+          <div class="product-body">
+            <p class="product-category">Shoes</p>
+            <h3 class="product-name"><a href="#">Black maroon</a></h3>
+            <p>Comfortable shoes</p>
+            <h4 class="product-price" data-price="2700">KSh 4000.00</h4>
+            <div class="product-size">
+              <label for="size">Size:</label>
+              <select class="size-select">
+                <option value="38">38</option><option value="39">39</option>
+                <option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option>
+                <option value="44">44</option><option value="45">45</option>
+                <option value="46">46</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 col-md-3 col-sm-6">
+        <div class="product" data-category="shoes">
+          <div class="product-img">
+            <img src="img/Vans/vans corduroy/blu.jpg" alt="">
+            
+          </div>
+          <div class="product-body">
+            <p class="product-category">Shoes</p>
+            <h3 class="product-name"><a href="#">Blue</a></h3>
+            <p>Comfortable shoes</p>
+            <h4 class="product-price" data-price="2700">KSh 4000.00</h4>
+            <div class="product-size">
+              <label for="size">Size:</label>
+              <select class="size-select">
+                <option value="38">38</option><option value="39">39</option>
+                <option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option>
+                <option value="44">44</option><option value="45">45</option>
+                <option value="46">46</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 col-md-3 col-sm-6">
+        <div class="product" data-category="shoes">
+          <div class="product-img">
+            <img src="img/nike air1.jpg" alt="">
+           
+          </div>
+          <div class="product-body">
+            <p class="product-category">Shoes</p>
+            <h3 class="product-name"><a href="#">Air force 1</a></h3>
+            <p>Perfect for occassion</p>
+            <h4 class="product-price" data-price="2500">KSh 4000.00</h4>
+            <div class="product-size">
+              <label for="size">Size:</label>
+              <select class="size-select">
+                <option value="38">38</option><option value="39">39</option>
+                <option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option>
+                <option value="44">44</option><option value="45">45</option>
+                <option value="46">46</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 col-md-3 col-sm-6">
+        <div class="product" data-category="shoes">
+          <div class="product-img">
+            <img src="img/Brogues/3-wmparada-sf-black-original-imagwmnvqvsszbjm.webp" alt="">
+           
+          </div>
+          <div class="product-body">
+            <p class="product-category">Shoes</p>
+            <h3 class="product-name"><a href="#">Black Brogues</a></h3>
+            <p>Girly Style</p>
+            <h4 class="product-price" data-price="2300">KSh 4000.00</h4>
+            <div class="product-size">
+              <label for="size">Size:</label>
+              <select class="size-select">
+                <option value="38">38</option><option value="39">39</option>
+                <option value="40">40</option><option value="41">41</option>
+                <option value="42">42</option><option value="43">43</option>
+                <option value="44">44</option><option value="45">45</option>
+                <option value="46">46</option>
+              </select>
+            </div>
+          </div>
+          <div class="add-to-cart">
+            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+          </div>
+        </div>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+<!-- Floating Checkout Button -->
+<a href="checkout.html" id="floating-checkout-btn">
+  <i class="fa fa-shopping-cart"></i> View Checkout
+</a>
+
+<style>
+  #floating-checkout-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #08dee9;
+    color: #000;
+    padding: 12px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  #floating-checkout-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  }
+</style>
+
+<script>
+function updateFloatingButton() {
+  const btn = document.getElementById('floating-checkout-btn');
+  if (!btn) return;
+
+  if (cart.length === 0) {
+    btn.textContent = "View Checkout";
+    return;
+  }
+
+  const currency = document.getElementById("currency").value;
+  const itemsText = cart.map(item => `${item.quantity}x ${item.name} (Size ${item.size})`).join(', ');
+  btn.textContent = `🛒 ${itemsText}`;
+}
+
+// Call this whenever cart changes
+function updateCart() {
+  const cartItems = document.getElementById("cart-items");
+  const cartCount = document.getElementById("cart-count");
+  const cartTotalItems = document.getElementById("cart-total-items");
+  const cartTotal = document.getElementById("cart-total");
+  const currency = document.getElementById("currency").value;
+
+  cartItems.innerHTML = "";
+  let total = 0;
+  let itemCount = 0;
+
+  cart.forEach((item, index) => {
+    total += item.price * item.quantity;
+    itemCount += item.quantity;
+    const line = (item.price * item.quantity * exchangeRates[currency]).toFixed(2);
+
+    cartItems.innerHTML += `
+      <div class="product-widget">
+        <div class="product-img"><img src="${item.image}" alt=""></div>
+        <div class="product-body">
+          <h3 class="product-name"><a href="#">${item.name}</a></h3>
+          <p>Size: ${item.size}</p>
+          <h4>
+            <button onclick="decreaseQty(${index})">-</button>
+            <span class="qty">${item.quantity}x</span>
+            <button onclick="increaseQty(${index})">+</button>
+            ${currencySymbol(currency)} ${line}
+          </h4>
+        </div>
+        <button class="delete" onclick="removeFromCart(${index})"><i class="fa fa-close"></i></button>
+      </div>
+    `;
+  });
+
+  cartCount.textContent = itemCount;
+  cartTotalItems.textContent = `${itemCount} Item(s) selected`;
+  cartTotal.textContent = `${currencySymbol(currency)} ${(total * exchangeRates[currency]).toFixed(2)}`;
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  updateFloatingButton(); // update floating button every time cart changes
+}
+</script>
+
+  <!-- Toast -->
+  <div id="cart-toast" style="background:#08dee9; color:#000;">
+  <span>👟</span><span id="cart-toast-msg">Item added to cart</span>
+</div>
+
+
+  <script>
+  const exchangeRates = { KES: 1, USD: 0.0076, EUR: 0.0070, GBP: 0.0059,
+    JPY: 1.11, INR: 0.63, CAD: 0.010, AUD: 0.012, ZAR: 0.14, CNY: 0.055
+  };
+  function currencySymbol(curr) {
+    switch(curr) {
+      case "KES": return "KSh"; case "USD": return "$"; case "EUR": return "€";
+      case "GBP": return "£"; case "JPY": return "¥"; case "INR": return "₹";
+      case "CAD": return "C$"; case "AUD": return "A$"; case "ZAR": return "R";
+      case "CNY": return "¥";
+    }
+  }
+  function updateCurrency() {
+    const currency = document.getElementById("currency").value;
+    document.querySelectorAll(".product-price").forEach(el => {
+      const basePrice = parseFloat(el.getAttribute("data-price"));
+      const converted = (basePrice * exchangeRates[currency]).toFixed(2);
+      el.textContent = `${currencySymbol(currency)} ${converted}`;
+    });
+    updateCart();
+  }
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  function updateCart() {
+    const cartItems = document.getElementById("cart-items");
+    const cartCount = document.getElementById("cart-count");
+    const cartTotalItems = document.getElementById("cart-total-items");
+    const cartTotal = document.getElementById("cart-total");
+    const currency = document.getElementById("currency").value;
+
+    cartItems.innerHTML = "";
+    let total = 0;
+    let itemCount = 0;
+
+    cart.forEach((item, index) => {
+      total += item.price * item.quantity;
+      itemCount += item.quantity;
+      const line = (item.price * item.quantity * exchangeRates[currency]).toFixed(2);
+
+      cartItems.innerHTML += `
+        <div class="product-widget">
+          <div class="product-img"><img src="${item.image}" alt=""></div>
+          <div class="product-body">
+            <h3 class="product-name"><a href="#">${item.name}</a></h3>
+            <p>Size: ${item.size}</p>
+            <h4>
+              <button onclick="decreaseQty(${index})">-</button>
+              <span class="qty">${item.quantity}x</span>
+              <button onclick="increaseQty(${index})">+</button>
+              ${currencySymbol(currency)} ${line}
+            </h4>
+          </div>
+          <button class="delete" onclick="removeFromCart(${index})"><i class="fa fa-close"></i></button>
+        </div>
+      `;
+    });
+
+    cartCount.textContent = itemCount;
+    cartTotalItems.textContent = `${itemCount} Item(s) selected`;
+    cartTotal.textContent = `${currencySymbol(currency)} ${(total * exchangeRates[currency]).toFixed(2)}`;
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
+  function addToCart(name, price, image, size) {
+    const existing = cart.find(it => it.name === name && it.size === size);
+    if (existing) existing.quantity++;
+    else cart.push({ name, price, image, size, quantity: 1 });
+    updateCart();
+    showToast(`${name} (Size ${size}) added to cart`);
+    const icon = document.querySelector('#cart-container .fa-shopping-cart');
+    if (icon) { icon.style.transform = 'scale(1.2)'; setTimeout(() => { icon.style.transform = 'scale(1)'; }, 150); }
+  }
+
+  function removeFromCart(index) { cart.splice(index, 1); updateCart(); }
+  function increaseQty(index) { cart[index].quantity++; updateCart(); }
+  function decreaseQty(index) { cart[index].quantity > 1 ? cart[index].quantity-- : cart.splice(index,1); updateCart(); }
+
+  function searchProducts(event) {
+    event.preventDefault();
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const category = document.getElementById("category").value;
+    document.querySelectorAll(".product").forEach(product => {
+      const name = product.querySelector(".product-name").innerText.toLowerCase();
+      const cat = product.getAttribute("data-category");
+      product.style.display = ((category === "all" || category === cat) && name.includes(query)) ? "block" : "none";
+    });
+  }
+
+  function setupCartDropdown() {
+    const cartContainer = document.getElementById('cart-container');
+    const toggle = document.getElementById('cart-toggle');
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      cartContainer.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+      if (!cartContainer.contains(e.target)) cartContainer.classList.remove('open');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') cartContainer.classList.remove('open');
+    });
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById("cart-toast");
+    const msg = document.getElementById("cart-toast-msg");
+    msg.textContent = message;
+    toast.style.display = "flex";
+    setTimeout(() => { toast.style.display = "none"; }, 2200);
+  }
+
+  // Attach add-to-cart buttons dynamically
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const product = e.target.closest('.product');
+        const name = product.querySelector('.product-name').innerText;
+        const price = parseFloat(product.querySelector('.product-price').getAttribute('data-price'));
+        const image = product.querySelector('.product-img img').src;
+        const size = product.querySelector('.size-select').value;
+        addToCart(name, price, image, size);
+      });
+    });
+    updateCurrency();
+    updateCart();
+    setupCartDropdown();
+  });
+  </script>
+  <!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /NEWSLETTER -->
+
+		<!-- FOOTER -->
+		<footer id="footer">
+			<!-- top footer -->
+			<div class="section">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">About Us</h3>
+								<p>we bring you a wide variety of items, fashion, electronics, home essentials, beauty products, and more all in one place. Our goal is to connect you with products that match your lifestyle while guaranteeing value for your money.</p>
+								<ul class="footer-links">
+									<li><a href="#"><i class="fa fa-map-marker"></i>Nairobi</a></li>
+									<li><a href="#"><i class="fa fa-phone"></i></a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>papsgaminghub@gmail.com</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Categories</h3>
+								<ul class="footer-links">
+									<li><a href="#">Hot deals</a></li>
+									<li><a href="#">Laptops</a></li>
+									<li><a href="#">Smartphones</a></li>
+									<li><a href="#">Cameras</a></li>
+									<li><a href="#">Accessories</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="visible-xs clearfix"></div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Information</h3>
+								<ul class="footer-links">
+									<li><a href="#">About Us</a></li>
+									<li><a href="#">Contact Us</a></li>
+									<li><a href="#">Privacy Policy</a></li>
+									<li><a href="#">Orders and Returns</a></li>
+									<li><a href="#">Terms & Conditions</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Service</h3>
+								<ul class="footer-links">
+									<li><a href="#">My Account</a></li>
+									<li><a href="#">View Cart</a></li>
+									<li><a href="#">Wishlist</a></li>
+									<li><a href="#">Track My Order</a></li>
+									<li><a href="#">Help</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /top footer -->
+
+			<!-- bottom footer -->
+			<div id="bottom-footer" class="section">
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="text-center col-md-12">
+							<ul class="footer-payments">
+								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
+								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+							</ul>
+							<span class="copyright">
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Paps online shopping
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							</span>
+						</div>
+					</div>
+						<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /bottom footer -->
+		</footer>
+		<!-- /FOOTER -->
+     <!-- Floating Icons -->
+<div class="floating-icons">
+  <!-- Phone -->
+  <a href="tel:+254790427109" title="Call Us">
+    <i class="fa-solid fa-phone fa-2x" style="color:#23ccea;"></i>
+  </a>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/254740389335" target="_blank" title="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp fa-2x" style="color:#25D366;"></i>
+  </a>
+</div>
+
+<!-- Scroll to Top -->
+<a href="#" class="scroll-top" id="btnTop" title="Go to Top">
+  <i class="fa-solid fa-arrow-up fa-2x" style="color:#1fc5ea;"></i>
+</a>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* Floating icons container (left side) */
+.floating-icons {
+  position: fixed;
+  left: 15px;
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+/* Scroll to top (right side) */
+.scroll-top {
+  position: fixed;
+  right: 15px;
+  bottom: 60px;
+  text-decoration: none;
+  display: none;
+  z-index: 1000;
+}
+</style>
+
+<script>
+// Show scroll-to-top icon when scrolling
+const btnTop = document.getElementById("btnTop");
+window.onscroll = function() {
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btnTop.style.display = "block";
+  } else {
+    btnTop.style.display = "none";
+  }
+};
+
+// Scroll to top when clicked
+btnTop.onclick = function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+</script>
+</body>
+</html>
